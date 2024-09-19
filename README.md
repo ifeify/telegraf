@@ -120,3 +120,26 @@ and feature requests only.
 [Event Log]: https://github.com/influxdata/telegraf/tree/master/plugins/inputs/win_eventlog
 [Management Instrumentation]: https://github.com/influxdata/telegraf/tree/master/plugins/inputs/win_wmi
 [Performance Counters]: https://github.com/influxdata/telegraf/tree/master/plugins/inputs/win_perf_counters
+
+# Azure EventHub Client
+```
+# Custom build: go build -v -tags "custom,inputs.azure_eventhub_consumer,outputs.file,parsers.json_v2,parsers.influx" ./cmd/telegraf
+# ./telegraf --debug --test --config azure_eventhub_consumer.conf
+[global_tags]
+    plugin="azure_eventhub_consumer"
+
+[agent]
+    interval = "30s"
+    collection_jitter = "2s"
+    metric_batch_size = 1000
+    metric_buffer_limit = 3000
+    flush_interval = "30s"
+    flush_jitter = "2s"
+    debug = true
+
+[[inputs.azure_eventhub_consumer]]
+    checkpoint_interval = "2m"
+
+[[outputs.file]]
+    files = [ "stdout" ]
+```
